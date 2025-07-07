@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Events Hub - Discover Tech Conferences & Workshops</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Roboto', 'sans-serif'],
+                    heading: ['Poppins', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        dark: '#1F2937',
+                        light: '#F3F4F6',
+                    }
+                }
+            }
+        }
+    </script>
+   <style>
+    body {
+        font-family: 'Roboto', sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', sans-serif;
+    }
+    .hero-slide {
+        transition: opacity 0.5s ease-in-out;
+    }
+    .hero-slide.active {
+        opacity: 1;
+        z-index: 10;
+    }
+    .hero-slide.inactive {
+        opacity: 0;
+        z-index: 1;
+    }
+    
+    /* New styles for event cards and grids */
+    .events-grid-container {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem; /* Space between upcoming and completed sections */
+    }
+    
+    .event-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+    }
+    
+    .event-card {
+        background: white;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .event-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .event-card-image {
+        height: 180px;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .event-card-content {
+        padding: 1.25rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .event-card-footer {
+        margin-top: auto;
+        padding-top: 1rem;
+    }
+    
+    /* Status badges */
+    .event-status {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .status-upcoming {
+        background-color: #3B82F6;
+        color: white;
+    }
+    
+    .status-completed {
+        background-color: #10B981;
+        color: white;
+    }
+    
+    /* Category tags */
+    .event-category {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .show-more-btn {
+    background-color: #3B82F6;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+.show-more-btn:hover {
+    background-color: #2563EB;
+    transform: translateY(-1px);
+}
+
+.show-more-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.section-divider {
+    border-top: 4px solid #3B82F6;
+    margin: 2rem 0;
+    opacity: 0.3;
+}
+.event-card-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.play-button-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.event-card:hover .play-button-overlay {
+    opacity: 1;
+}
+
+.play-button {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    padding: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.event-card:hover .play-button {
+    transform: scale(1.1);
+}
+    
+    /* Responsive adjustments */
+    @media (max-width: 640px) {
+        .event-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+<body class="text-white bg-[#242666]">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Hero Section - Now a Carousel -->
+        <section class="mb-12 relative rounded-lg overflow-hidden" style="min-height: 500px;">
+            <!-- Slide 1 -->
+            <div class="hero-slide active absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                <div class="absolute inset-0 z-10 flex flex-col justify-end p-6">
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                        <div class="text-w hite">
+                            <button onclick="filterEvents('conference')" data-category="conference" class="px-4 py-2 text-white hover:dark:bg-slate-900 font-bold bg-[#2563eb] rounded-2xl">Conference</button>
+                            <h2 class="text-2xl md:text-3xl font-semibold mb-2 font-heading">Global Tech Summit 2024</h2>
+                            <p class="text-lg text-gray-100 max-w-2xl">
+                                Join the premier IT conference featuring industry leaders, cutting-edge technologies, and networking opportunities.
+                            </p>
+                        </div>
+                        <div class="flex md:justify-end">
+                            <div class="flex flex-col text-gray-200 bg-black bg-opacity-50 px-4 py-2 rounded-lg">
+                                <span class="font-medium">Tech Events Inc.</span>
+                                <div class="flex items-center text-sm mt-1">
+                                    <span>Oct 15-17, 2024</span>
+                                    <span class="mx-2">•</span>
+                                    <span>3 days</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="hero-slide inactive absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                <div class="absolute inset-0 z-10 flex flex-col justify-end p-6">
+                    <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                        <div class="text-white">
+                            <button onclick="filterEvents('workshop')" data-category="workshop" class="px-4 py-2 text-white hover:dark:bg-slate-900 font-bold bg-[#2563eb] rounded-2xl">Workshop</button>
+                            <h2 class="text-2xl md:text-3xl font-semibold mb-2 font-heading">AI & Machine Learning Workshop</h2>
+                            <p class="text-lg text-gray-100 max-w-2xl">
+                                Hands-on workshop covering the latest advancements in artificial intelligence and practical machine learning applications.
+                            </p>
+                        </div>
+                        <div class="flex md:justify-end">
+                            <div class="flex flex-col text-gray-200 bg-black bg-opacity-50 px-4 py-2 rounded-lg">
+                                <span class="font-medium">Data Science Academy</span>
+                                <div class="flex items-center text-sm mt-1">
+                                    <span>Nov 5-6, 2024</span>
+                                    <span class="mx-2">•</span>
+                                    <span>2 days</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Dots -->
+            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex space-x-2">
+                <button onclick="goToSlide(0)" class="w-3 h-3 rounded-full bg-white"></button>
+                <button onclick="goToSlide(1)" class="w-3 h-3 rounded-full bg-white/50"></button>
+            </div>
+        </section>
+
+        <!-- Rest of your code remains exactly the same -->
+        <!-- Events Content -->
+        <section class="mb-12">
+            <p class="text-2xl md:text-3xl font-semibold mb-4 font-heading">
+                Discover the latest IT conferences, workshops, and hackathons to expand your knowledge and network.
+            </p>
+
+            <!-- Event Status Tabs -->
+            <div class="flex mb-6  border-gray-200 pb-2">
+                <button onclick="showUpcomingEvents()" class="px-4 py-2 text-white font-bold bg-[#2563eb] rounded-t-lg hover:bg-blue-700 mr-2">Upcoming Events</button>
+                <button onclick="showCompletedEvents()" class="px-4 py-2 text-white font-bold bg-gray-600 rounded-t-lg hover:bg-gray-700">Completed Events</button>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b border-gray-200 pb-4">
+                <button onclick="filterEvents('all')" data-category="all" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">All</button>
+                <button onclick="filterEvents('conference')" data-category="conference" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Conferences</button>
+                <button onclick="filterEvents('workshop')" data-category="workshop" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Workshops</button>
+                <button onclick="filterEvents('hackathon')" data-category="hackathon" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Hackathons</button>
+                <button onclick="filterEvents('webinar')" data-category="webinar" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Webinars</button>
+               
+               
+    <div class="ml-auto flex items-center">
+                <!-- Search Bar -->
+<div class="relative" id="searchWrapper">
+    <!-- Search Icon Button -->
+    <button id="toggleSearch" class="absolute left-3 top-2.5 text-gray-400 focus:outline-none z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+    </button>
+
+    <!-- Search Input -->
+    <input type="text" id="eventSearch"
+        placeholder="Search events..."
+        class="transition-all duration-300 ease-in-out pl-10 pr-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800 w-0 opacity-0"
+    />
+</div>
+        <!-- Sorting Dropdown -->
+    <div class="relative mr-4 ml-4" id="sort-dropdown-container">
+  <button id="sort-button" class="flex items-center px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">
+    <span>Sort by</span>
+    <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+  <div id="sort-dropdown" class="absolute z-20 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden">
+    <ul class="py-1 text-gray-700">
+      <li><a href="#" class="sort-option block px-3 py-1 hover:bg-gray-100" data-sort="default">Default</a></li>
+      <li><a href="#" class="sort-option block px-3 py-1 hover:bg-gray-100" data-sort="oldest">Oldest</a></li>
+      <li><a href="#" class="sort-option block px-3 py-1 hover:bg-gray-100" data-sort="newest">Newest</a></li>
+    </ul>
+  </div>
+</div>
+
+</div>
+            </div>
+
+            <!-- Events Section -->
+            <section class="max-w-7xl mx-auto px-4 py-10">
+                <div id="events-container" class="grid grid-cols-1 gap-4">
+                    <!-- Events will be dynamically inserted here -->
+                </div>
+
+                <!-- Pagination -->
+                <!-- <div class="flex justify-center mt-10">
+                    <nav class="inline-flex -space-x-px text-sm pagination-container">
+                        <a href="#" class="px-3 py-2 ml-0 leading-tight text-white bg-[#2563eb] border border-gray-300 rounded-l-lg hover:bg-blue-700">Previous</a>
+                        <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 bg-blue-50 hover:bg-blue-100">1</a>
+                        <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 hover:bg-gray-100">2</a>
+                        <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 hover:bg-gray-100">3</a>
+                        <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 rounded-r-lg hover:bg-gray-100">Next</a>
+                    </nav>
+                </div> -->
+            </section>
+        </section>
+    </div>
+
+<script>
+    // Hero Carousel Functionality
+    let currentHeroSlide = 0;
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    const heroDots = document.querySelectorAll('.absolute.bottom-4 button');
+
+    function showHeroSlide(index) {
+        heroSlides.forEach((slide, i) => {
+            if (i === index) {
+                slide.classList.add('active');
+                slide.classList.remove('inactive');
+            } else {
+                slide.classList.add('inactive');
+                slide.classList.remove('active');
+            }
+        });
+        
+        heroDots.forEach((dot, i) => {
+            dot.classList.toggle('bg-white/50', i !== index);
+            dot.classList.toggle('bg-white', i === index);
+        });
+        
+        currentHeroSlide = index;
+    }
+
+    function nextHeroSlide() {
+        currentHeroSlide = (currentHeroSlide + 1) % heroSlides.length;
+        showHeroSlide(currentHeroSlide);
+    }
+
+    function prevHeroSlide() {
+        currentHeroSlide = (currentHeroSlide - 1 + heroSlides.length) % heroSlides.length;
+        showHeroSlide(currentHeroSlide);
+    }
+
+    function goToSlide(index) {
+        showHeroSlide(index);
+    }
+
+    // Auto-advance hero slides every 5 seconds
+    setInterval(nextHeroSlide, 5000);
+
+    // Event data array
+    const eventsData = [
+        {
+            id: 1,
+            title: "Global Tech Summit 2024",
+            description: "The premier IT conference featuring industry leaders, cutting-edge technologies, and networking opportunities.",
+            category: "conference",
+            status: "upcoming",
+            date: "Oct 15-17, 2024 • 3 days",
+            location: "Convention Center, San Francisco",
+            image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            attendees: "1.5K attending",
+            buttonText: "Register for Free",
+            buttonClass: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+        id: 2,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                hu
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "fJbl08pV0p0" // Add YouTube video ID for each completed event
+    },
+
+        {
+            id: 3,
+            title: "AI & Machine Learning Workshop",
+            description: "Hands-on workshop covering the latest AI and ML techniques with practical implementation examples.",
+            category: "workshop",
+            status: "upcoming",
+            date: "Nov 5, 2024 • 6 hours",
+            location: "Tech Campus, Innovation Lab",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            attendees: "328 registered",
+            buttonText: "Register for Free",
+            buttonClass: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+            id: 4,
+            title: "Global Hackathon Challenge",
+            description: "48-hour coding marathon to solve real-world problems with $50,000 in prizes for winning teams.",
+            category: "hackathon",
+            status: "upcoming",
+            date: "Dec 10-12, 2024 • 48 hours",
+            location: "Virtual & On-site (Multiple Locations)",
+            image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            attendees: "890 teams",
+            buttonText: "Pay and Register",
+            buttonClass: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+            id: 5,
+            title: "Cybersecurity Trends 2024",
+            description: "Learn about the latest cybersecurity threats and defense strategies from industry experts.",
+            category: "webinar",
+            status: "upcoming",
+            date: "Sep 20, 2024 • 2 hours",
+            location: "Online Event",
+            image: "https://st.depositphotos.com/1010613/4869/i/450/depositphotos_48699923-stock-photo-business-people-looking-at-computer.jpg",
+            attendees: "1.2K registered",
+            buttonText: "Register Free",
+            buttonClass: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+    id: 6,
+    title: "DevOps World 2024",
+    description: "Annual conference covering the latest in DevOps practices...",
+    category: "conference",
+    status: "completed",
+    date: "May 10-12, 2024 • 3 days",
+    location: "Boston Convention Center",
+    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2",
+    attendees: "2.3K attended",
+    buttonText: `
+        <span class="flex items-center justify-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+            </svg>
+            
+        </span>
+    `,
+    buttonClass: "bg-gray-600 hover:bg-gray-700",
+    grayscale: true,
+    videoId: "dQw4w9WgXcQ" // Replace with actual YouTube video ID
+},
+{
+    id: 7,
+    title: "DevOps World 2024",
+    description: "Annual conference covering the latest in DevOps practices...",
+    category: "conference",
+    status: "completed",
+    date: "May 10-12, 2024 • 3 days",
+    location: "Boston Convention Center",
+    image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2",
+    attendees: "2.3K attended",
+    buttonText: `
+        <span class="flex items-center justify-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+            </svg>
+        hello
+        </span>
+    `,
+    buttonClass: "bg-gray-600 hover:bg-gray-700",
+    grayscale: true,
+    videoId: "9bZkp7q19f0" // Replace with actual YouTube video ID
+},
+        {
+            id: 8 ,
+            title: "Cybersecurity Trends 2024",
+            description: "Learn about the latest cybersecurity threats and defense strategies from industry experts.",
+            category: "webinar",
+            status: "upcoming",
+            date: "Sep 20, 2024 • 2 hours",
+            location: "Online Event",
+            image: "https://st.depositphotos.com/1010613/4869/i/450/depositphotos_48699923-stock-photo-business-people-looking-at-computer.jpg",
+            attendees: "1.2K registered",
+            buttonText: "Register Free",
+            buttonClass: "bg-blue-600 hover:bg-blue-700"
+        },
+        {
+            id: 9,
+            title: "DevOps World 2024",
+            description: "Annual conference covering the latest in DevOps practices, tools, and culture transformation.",
+            category: "conference",
+            status: "completed",
+            date: "May 10-12, 2024 • 3 days",
+            location: "Boston Convention Center",
+            image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+            attendees: "2.3K attended",
+             buttonText: `
+        <span class="flex items-center justify-center gap-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+            </svg>
+            
+        </span>
+    `,
+            buttonClass: "bg-gray-600 hover:bg-gray-700",
+            grayscale: true
+        },
+         {
+        id: 10,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    },
+     {
+        id: 11,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    },
+     {
+        id: 12,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    },
+     {
+        id: 13,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    },
+     {
+        id: 14,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    },
+     {
+        id: 15,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    },
+     {
+        id: 16,
+        title: "Cloud Native Technologies",
+        description: "Hands-on workshop covering Kubernetes, Docker...",
+        category: "workshop",
+        status: "completed",
+        date: "Apr 15, 2024 • 8 hours",
+        location: "Tech Hub, Seattle",
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+        attendees: "415 attended",
+        buttonText: `
+            <span class="flex items-center justify-center gap-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+                
+            </span>
+        `,
+        buttonClass: "bg-gray-600 hover:bg-gray-700",
+        grayscale: true,
+        videoId: "dQw4w9WgXcQ" // Add YouTube video ID for each completed event
+    }
+    ];
+
+    let activeCategory = 'all';
+    let activeStatus = 'upcoming';
+    let completedEventsLimit = 6;
+let showMoreCompleted = false;
+    let visibleCards = [];
+    let itemsPerPage = 6;
+    let currentPage = 1;
+
+
+// Update your renderEvents function (replace the completed events section)
+function renderEvents() {
+    const eventsContainer = document.getElementById('events-container');
+    eventsContainer.innerHTML = '';
+// Search button compress and expand
+const toggleBtn = document.getElementById('toggleSearch');
+const input = document.getElementById('eventSearch');
+const wrapper = document.getElementById('searchWrapper');
+
+// Initialize search as hidden
+input.classList.add('w-0', 'opacity-0', 'pointer-events-none');
+input.classList.remove('w-64', 'opacity-100', 'pointer-events-auto');
+
+function showSearch() {
+    input.classList.remove('w-0', 'opacity-0', 'pointer-events-none');
+    input.classList.add('w-64', 'opacity-100', 'pointer-events-auto');
+    input.focus();
+}
+
+function hideSearch() {
+    input.classList.remove('w-64', 'opacity-100', 'pointer-events-auto');
+    input.classList.add('w-0', 'opacity-0', 'pointer-events-none');
+    input.value = '';
+    filterEventsBySearch('');
+}
+
+// Toggle search on button click
+toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (input.classList.contains('w-0')) {
+        showSearch();
+    } else {
+        hideSearch();
+    }
+});
+
+// Close search when clicking outside
+document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target) && e.target !== toggleBtn) {
+        hideSearch();
+    }
+});
+
+// Prevent search input from closing when clicking inside it
+input.addEventListener('click', (e) => {
+    e.stopPropagation();
+});
+
+// Clicking anywhere outside will close the search
+document.addEventListener('click', (e) => {
+    // Only hide if click is outside AND input is visible
+    if (!wrapper.contains(e.target) && input.classList.contains('w-64')) {
+        hideSearch();
+    }
+});
+
+    // Filter events based on active category and status
+    const filteredEvents = eventsData.filter(event => {
+        const categoryMatch = activeCategory === 'all' || event.category === activeCategory;
+        const statusMatch = activeStatus === 'all' || event.status === activeStatus;
+        return categoryMatch && statusMatch;
+    });
+
+    // Separate upcoming and completed events
+    const upcomingEvents = filteredEvents.filter(event => event.status === 'upcoming');
+    const completedEvents = filteredEvents.filter(event => event.status === 'completed');
+
+    // Create main container for both sections
+    const mainContainer = document.createElement('div');
+    mainContainer.className = 'w-full';
+
+    // Upcoming events section
+    if (upcomingEvents.length > 0) {
+        const upcomingSection = document.createElement('div');
+        upcomingSection.className = 'upcoming-events';
+        
+        const upcomingGrid = document.createElement('div');
+        upcomingGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8';
+        
+        upcomingEvents.forEach(event => {
+            createEventCard(event, upcomingGrid);
+        });
+        
+        upcomingSection.appendChild(upcomingGrid);
+        mainContainer.appendChild(upcomingSection);
+    }
+
+    // Add divider only when showing both upcoming and completed events
+    if (upcomingEvents.length > 0 && completedEvents.length > 0 && activeStatus === 'all') {
+        const divider = document.createElement('div');
+        divider.className = 'section-divider';
+        mainContainer.appendChild(divider);
+    }
+
+    // Completed events section with show more functionality
+    if (completedEvents.length > 0) {
+        const completedSection = document.createElement('div');
+        completedSection.className = 'completed-events';
+        
+        const completedGrid = document.createElement('div');
+        completedGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8';
+        
+        // Determine which events to show
+        const eventsToShow = showMoreCompleted ? 
+            completedEvents : 
+            completedEvents.slice(0, completedEventsLimit);
+        
+        eventsToShow.forEach(event => {
+            createEventCard(event, completedGrid);
+        });
+        
+        completedSection.appendChild(completedGrid);
+        
+        // Add show more button if needed
+        if (completedEvents.length > completedEventsLimit) {
+    const showMoreContainer = document.createElement('div');
+    showMoreContainer.className = 'show-more-container flex justify-center mt-6';
+    
+    const showMoreBtn = document.createElement('button');
+    showMoreBtn.className = 'show-more-btn flex items-center justify-center gap-2 bg-[#2563eb] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-all';
+    
+    // Update the button content with rotation class based on state
+    const updateButtonContent = () => {
+        showMoreBtn.innerHTML = `
+            ${showMoreCompleted ? 'Show Less' : 'Show More'}
+            <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 h-4 w-4 transition-transform duration-200 ${showMoreCompleted ? 'rotate-180' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+        `;
+    };
+    
+    updateButtonContent();
+    
+    showMoreBtn.onclick = () => {
+        showMoreCompleted = !showMoreCompleted;
+        updateButtonContent();
+        renderEvents();
+    };
+    
+    showMoreContainer.appendChild(showMoreBtn);
+    completedSection.appendChild(showMoreContainer);
+}
+        
+        mainContainer.appendChild(completedSection);
+    }
+
+    eventsContainer.appendChild(mainContainer);
+    updatePagination();
+}
+// Helper function to create individual event cards
+function createEventCard(event, container) {
+    const eventCard = document.createElement('article');
+    eventCard.className = `event-card ${event.status} rounded-xl overflow-hidden shadow hover:shadow-md transition border border-gray-200 bg-white`;
+    eventCard.setAttribute('data-category', event.category);
+
+    const isCompleted = event.status === 'completed';
+
+    // Create buttons differently for completed events
+    let buttonsHtml;
+if (isCompleted) {
+    buttonsHtml = `
+        <div class="mt-3 flex gap-2">
+            <button onclick="openPoll(${event.id})" 
+                    class="w-full bg-[#2563eb] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded h-[42px] flex items-center justify-center">
+                Take Poll
+            </button>
+        </div>
+    `;
+} else {
+    buttonsHtml = `
+        <div class="mt-3 flex gap-2">
+            <button onclick="goToRegister(${event.id})"
+                    class="flex-1 ${event.buttonClass} text-white font-bold py-2 px-4 rounded">
+                ${event.buttonText}
+            </button>
+            <button onclick="goToDetails(${event.id})" 
+                    class="flex-1 bg-gray-100 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
+                More Info
+            </button>
+        </div>
+    `;
+}
+
+    eventCard.innerHTML = `
+    <div class="relative group">
+        <img src="${event.image}" alt="${event.title}" class="w-full h-48 object-cover ${isCompleted ? '' : ''}">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-80">
+            ${event.category.charAt(0).toUpperCase() + event.category.slice(1)}
+        </span>
+        <div class="absolute bottom-2 right-2 ${isCompleted ? 'bg-[#2cc5e5]' : 'bg-[#2cc5e5]'} text-white text-xs font-bold px-2 py-1 rounded">
+            ${isCompleted ? 'Completed' : 'Upcoming'}
+        </div>
+        ${isCompleted ? `
+        <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <button onclick="window.playRecording(${event.id})" class="bg-white/90 hover:bg-white text-gray-800 rounded-full p-3 transition-all transform group-hover:scale-110">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/>
+                </svg>
+            </button>
+        </div>
+        ` : ''}
+    </div>
+    <div class="p-4">
+        <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+            <span>${event.date}</span>
+            <div class="flex items-center gap-1">
+                <span class="text-blue-700 text-xs view-count">${event.attendees}</span>
+                <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">${event.title}</h3>
+        <p class="text-sm text-gray-600 mb-2">${event.description}</p>
+        <div class="flex items-center text-sm text-gray-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>${event.location}</span>
+        </div>
+        ${buttonsHtml}
+    </div>
+`;
+
+    container.appendChild(eventCard);
+}
+
+
+        updatePagination();
+
+    function showAllEvents() {
+    activeStatus = 'all';
+    document.querySelector('.flex.mb-6 button:first-child').classList.add('bg-[#2563eb]', 'hover:bg-blue-700');
+    document.querySelector('.flex.mb-6 button:first-child').classList.remove('bg-gray-600', 'hover:bg-gray-700');
+    document.querySelector('.flex.mb-6 button:last-child').classList.remove('bg-[#2563eb]', 'hover:bg-blue-700');
+    document.querySelector('.flex.mb-6 button:last-child').classList.add('bg-gray-600', 'hover:bg-gray-700');
+    renderEvents();
+}
+
+
+    function toggleViewCount(button) {
+        const span = button.previousElementSibling;
+        span.classList.toggle('hidden');
+    }
+
+    function setActiveCategoryButton(category) {
+        const categoryButtons = document.querySelectorAll('.flex.flex-wrap button[data-category]');
+        categoryButtons.forEach(btn => {
+            if (btn.getAttribute('data-category') === category) {
+                btn.classList.add('bg-[#2563eb]', 'hover:bg-blue-700');
+                btn.classList.remove('bg-gray-600', 'hover:bg-gray-700');
+            } else {
+                btn.classList.remove('bg-[#2563eb]', 'hover:bg-blue-700');
+                btn.classList.add('bg-gray-600', 'hover:bg-gray-700');
+            }
+        });
+    }
+
+function filterEvents(category) {
+    activeCategory = category;
+    showMoreCompleted = false; 
+    
+    // Only show all statuses if "All" filter is selected
+    if (category === 'all') {
+        activeStatus = 'all'; // Show both upcoming and completed
+    } else {
+        activeStatus = 'upcoming'; // For specific categories, only show upcoming
+    }
+    
+    setActiveCategoryButton(category);
+    renderEvents();
+}
+
+function goToRegister(id) {
+    window.location.href = `know-more.html?id=${id}`;
+}
+
+function goToDetails(id) {
+    window.location.href = `register.html?id=${id}`;
+}
+
+function openPoll(id) {
+    window.location.href = `poll.html?id=${id}`;
+}
+
+
+function playRecording(eventId) {
+    // Find the event in your data
+    const event = eventsData.find(e => e.id === eventId);
+    
+    if (!event) {
+        alert("Event not found");
+        return;
+    }
+    
+    if (!event.videoId) {
+        alert("Video recording not available for this event");
+        return;
+    }
+
+    // Create or update the iframe
+    const iframe = document.getElementById('videoFrame');
+    iframe.src = `https://www.youtube.com/embed/${event.videoId}?autoplay=1&mute=1&rel=0`;
+    
+    // Show the modal
+    document.getElementById('videoModal').classList.remove('hidden');
+}
+
+function closeVideo() {
+    const iframe = document.getElementById('videoFrame');
+    iframe.src = '';
+    document.getElementById('videoModal').classList.add('hidden');
+}
+
+
+function filterEventsBySearch(searchTerm) {
+    const eventsContainer = document.getElementById('events-container');
+    const eventCards = eventsContainer.querySelectorAll('.event-card');
+    let hasMatches = false;
+    
+    if (searchTerm === '') {
+        renderEvents();
+        return;
+    }
+    
+    eventCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        const category = card.getAttribute('data-category').toLowerCase();
+        const location = card.querySelector('.flex.items-center.text-sm.text-gray-500 span').textContent.toLowerCase();
+        
+        const matches = title.includes(searchTerm) || 
+                       description.includes(searchTerm) || 
+                       category.includes(searchTerm) || 
+                       location.includes(searchTerm);
+        
+        card.style.display = matches ? 'block' : 'none';
+        if (matches) hasMatches = true;
+    });
+    
+    // Show "no results" message if needed
+    const noResultsMsg = eventsContainer.querySelector('.no-results-message');
+    if (!hasMatches && eventCards.length > 0) {
+        if (!noResultsMsg) {
+            const msg = document.createElement('p');
+            msg.className = 'no-results-message text-white text-center py-4';
+            msg.textContent = 'No events match your search.';
+            eventsContainer.appendChild(msg);
+        }
+    } else if (noResultsMsg) {
+        noResultsMsg.remove();
+    }
+}
+
+    function updatePagination() {
+        const paginationContainer = document.querySelector('.pagination-container');
+        if (!paginationContainer) return;
+
+        const totalPages = Math.ceil(visibleCards.length / itemsPerPage);
+        paginationContainer.innerHTML = '';
+
+        const createPageButton = (label, pageNum, isDisabled = false) => {
+            const button = document.createElement('a');
+            button.href = '#';
+            button.textContent = label;
+            button.className = `px-3 py-2 leading-tight border border-gray-300 ${isDisabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'} ${currentPage === pageNum ? 'text-blue-600 bg-blue-50' : 'text-gray-500 bg-white'}`;
+            if (!isDisabled) {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showPage(pageNum);
+                });
+            }
+            return button;
+        };
+
+        if (totalPages === 0) return;
+
+        // Previous
+        paginationContainer.appendChild(createPageButton('Previous', currentPage - 1, currentPage === 1));
+
+        // Numbered pages
+        const maxVisiblePages = 3;
+        let startPage = Math.max(1, currentPage - 1);
+        let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+        if (startPage > 1) {
+            paginationContainer.appendChild(createPageButton(1, 1));
+            if (startPage > 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'px-3 py-2 leading-tight text-gray-500';
+                ellipsis.textContent = '...';
+                paginationContainer.appendChild(ellipsis);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationContainer.appendChild(createPageButton(i, i));
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'px-3 py-2 leading-tight text-gray-500';
+                ellipsis.textContent = '...';
+                paginationContainer.appendChild(ellipsis);
+            }
+            paginationContainer.appendChild(createPageButton(totalPages, totalPages));
+        }
+
+        // Next
+        paginationContainer.appendChild(createPageButton('Next', currentPage + 1, currentPage === totalPages));
+    }
+
+function showUpcomingEvents() {
+    activeStatus = 'upcoming';
+    showMoreCompleted = false;
+        document.querySelector('.flex.mb-6 button:first-child').classList.add('bg-[#2563eb]', 'hover:bg-blue-700');
+        document.querySelector('.flex.mb-6 button:first-child').classList.remove('bg-gray-600', 'hover:bg-gray-700');
+        document.querySelector('.flex.mb-6 button:last-child').classList.add('bg-gray-600', 'hover:bg-gray-700');
+        document.querySelector('.flex.mb-6 button:last-child').classList.remove('bg-[#2563eb]', 'hover:bg-blue-700');
+        renderEvents();
+    }
+
+function showCompletedEvents() {
+    activeStatus = 'completed';
+    showMoreCompleted = false;
+        document.querySelector('.flex.mb-6 button:last-child').classList.add('bg-[#2563eb]', 'hover:bg-blue-700');
+        document.querySelector('.flex.mb-6 button:last-child').classList.remove('bg-gray-600', 'hover:bg-gray-700');
+        document.querySelector('.flex.mb-6 button:first-child').classList.add('bg-gray-600', 'hover:bg-gray-700');
+        document.querySelector('.flex.mb-6 button:first-child').classList.remove('bg-[#2563eb]', 'hover:bg-blue-700');
+        renderEvents();
+    }
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Your existing code
+    activeStatus = 'upcoming';
+    activeCategory = 'all';
+
+    const searchInput = document.getElementById('eventSearch');
+    searchInput.addEventListener('input', function() {
+        filterEventsBySearch(this.value.trim().toLowerCase());
+    });
+    
+    document.querySelector('.flex.mb-6 button:first-child').classList.add('bg-[#2563eb]', 'hover:bg-blue-700');
+    document.querySelector('.flex.mb-6 button:first-child').classList.remove('bg-gray-600', 'hover:bg-gray-700');
+    document.querySelector('.flex.mb-6 button:last-child').classList.add('bg-gray-600', 'hover:bg-gray-700');
+    document.querySelector('.flex.mb-6 button:last-child').classList.remove('bg-[#2563eb]', 'hover:bg-blue-700');
+    
+    renderEvents();
+    showHeroSlide(0);
+
+    // NEW CODE: Add dropdown functionality (won't disturb existing code)
+    const initSortDropdown = function() {
+        const sortButton = document.getElementById('sort-button');
+        const sortDropdown = document.getElementById('sort-dropdown');
+        const sortOptions = document.querySelectorAll('.sort-option');
+        const sortContainer = document.getElementById('sort-dropdown-container');
+
+        if (!sortButton || !sortDropdown) return;
+
+        // Toggle dropdown on button click
+        sortButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            sortDropdown.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!sortContainer.contains(e.target)) {
+                sortDropdown.classList.add('hidden');
+            }
+        });
+
+        // Handle sort option selection
+        sortOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const sortType = this.getAttribute('data-sort');
+                sortBlogs(sortType);
+                sortDropdown.classList.add('hidden');
+                
+                // Update button text to show selected option
+                sortButton.querySelector('span').textContent = this.textContent;
+            });
+        });
+    };
+
+    // Sort function implementation
+    const sortBlogs = function(sortType) {
+        const blogContainer = document.querySelector('.blog-container');
+        if (!blogContainer) return;
+
+        const blogCards = Array.from(document.querySelectorAll('.blog-card'));
+
+        switch(sortType) {
+            case 'oldest':
+                blogCards.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('.blog-date').textContent);
+                    const dateB = new Date(b.querySelector('.blog-date').textContent);
+                    return dateA - dateB;
+                });
+                break;
+                
+            case 'newest':
+                blogCards.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('.blog-date').textContent);
+                    const dateB = new Date(b.querySelector('.blog-date').textContent);
+                    return dateB - dateA;
+                });
+                break;
+                
+            case 'default':
+            default:
+                // Default order (as they appear in DOM)
+                blogCards.sort((a, b) => {
+                    return Array.from(blogContainer.children).indexOf(a) - 
+                           Array.from(blogContainer.children).indexOf(b);
+                });
+                break;
+        }
+
+        // Re-append sorted cards
+        blogCards.forEach(card => {
+            blogContainer.appendChild(card);
+        });
+
+        // If you have pagination, reset to first page
+        if (typeof showPage === 'function') {
+            showPage(1);
+        }
+    };
+
+    // Initialize the dropdown
+    initSortDropdown();
+});
+
+</script>
+<div id="videoModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-75">
+    <div class="relative w-full max-w-4xl p-4">
+        <button onclick="closeVideo()" class="absolute -top-10 right-0 text-white hover:text-gray-300">
+            ✕
+        </button>
+        <div class="aspect-w-16 aspect-h-9 w-full bg-black">
+            <iframe 
+                id="videoFrame"
+                class="w-full h-[70vh]"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
