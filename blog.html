@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Blog - Exploring the Wonders</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                    sans: ['Roboto', 'sans-serif'],
+                    heading: ['Poppins', 'sans-serif'],
+                },
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        dark: '#1F2937',
+                        light: '#F3F4F6',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-white   bg-[#242666]">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Hero Section -->
+       <section class="mb-12 relative bg-cover bg-center rounded-lg overflow-hidden" style="background-image: url('https://images8.alphacoders.com/790/790910.jpg'); min-height: 500px;">
+  <!-- Dark overlay (darker at bottom for text contrast) -->
+  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+
+  <!-- Content container pinned to bottom -->
+  <div class="absolute inset-0 z-10 flex flex-col justify-end p-6">
+  <!-- Main content container with grid -->
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+    <!-- Left: Text Content -->
+    <div class="text-white">
+      <button onclick="filterBlogs('destination')" data-category="destination" class="px-4 py-2 text-white hover:dark:bg-slate-900 font-bold bg-[#2563eb] rounded-2xl">Destination</button>
+      <h2 class="text-2xl md:text-3xl font-semibold mb-2 font-heading">Exploring the Wonders of Hiking</h2>
+      <p class="text-lg text-gray-100 max-w-2xl">
+        An iconic landmark, this post unveils the secrets that make this destination a traveler's paradise.
+      </p>
+    </div>
+
+    <!-- Right: Author + Date Info -->
+    <div class="flex md:justify-end">
+  <div class="flex flex-col text-gray-200 bg-black bg-opacity-50 px-4 py-2 rounded-lg">
+    <!-- Author Name -->
+    <span class="font-medium">Theodore Reginald</span>
+
+    <!-- Date and Read Time -->
+    <div class="flex items-center text-sm mt-1">
+      <span>24 Jan 2024</span>
+      <span class="mx-2">•</span>
+      <span>10 mins read</span>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>
+
+</section>
+
+
+        <!-- Blog Content -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 font-heading">Blogs</h2>
+            <p class="text-lg  text-white mb-8 max-w-3xl">
+                Here, we share travel tips, destination guides, and stories that inspire your next adventure.
+            </p>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap items-center gap-4 mb-8 border-b border-gray-200 pb-4">
+                <button onclick="filterBlogs('all')" data-category="all" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">All</button>
+  <button onclick="filterBlogs('destination')" data-category="destination" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Destination</button>
+  <button onclick="filterBlogs('culinary')" data-category="culinary" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Culinary</button>
+  <button onclick="filterBlogs('lifestyle')" data-category="lifestyle" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Lifestyle</button>
+  <button onclick="filterBlogs('tips')" data-category="tips" class="px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700">Tips & Hacks</button>
+                <div class="ml-auto flex items-center">
+                    <span class="text-gray-500 mr-2">Sort by:</span>
+                    <button class="inline-flex justify-center items-center px-3 py-1 text-white font-bold bg-[#2563eb] rounded-xl hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+    Newest
+    <svg class="ml-2 w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <path d="M5.516 7.548L10 12.032l4.484-4.484 1.032 1.032L10 14.096 4.484 8.58z"/>
+    </svg>
+  </button>
+
+  <!-- Dropdown Menu -->
+  <div class="absolute z-20 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden group-hover:block">
+    <ul class="py-1 text-gray-700">
+      <li><a href="#" class="block px-3 py-1 hover:bg-gray-100">Default</a></li>
+      <li><a href="#" class="block px-3 py-1 hover:bg-gray-100">Oldest</a></li>
+      <li><a href="#" class="block px-3 py-1 hover:bg-gray-100">Newest</a></li>
+    </ul>
+  </div>
+                </div>
+            </div>
+
+        
+           <!-- Blog Section -->
+<section class="max-w-7xl mx-auto px-4 py-10">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <!-- Blog Post 1 -->
+    <article data-category="destination" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white bg-white">
+      <div class="relative">
+        <img src="https://th.bing.com/th/id/R.98cef8d6984b7528ba01ab7004da60ee?rik=%2foTss2B67nk1uQ&riu=http%3a%2f%2fwww.baltana.com%2ffiles%2fwallpapers-2%2fHills-Background-Wallpaper-04162.jpg&ehk=MkuufroCuPvRc647q6gNHw5CuBPZ9r8h7RUvb1%2b2GpY%3d&risl=&pid=ImgRaw&r=0" alt="Tourist Trails" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-80">Destination</span>
+      </div>
+      <div class="p-4">
+        <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+    <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+        <h3 class="text-lg font-bold text-gray-900 mb-1">Unveiling the Secrets Beyond the Tourist Trails</h3>
+        <p class="text-sm text-gray-600">Dive into the local culture, discover hidden spots, and experience the authentic charm that often...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 2 -->
+    <article data-category="lifestyle" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Lifestyle</span>
+      </div>
+      <div class="p-4">
+       <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+    <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 3 (Duplicate or another) -->
+    <article data-category="culinary" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Culinary</span>
+      </div>
+      <div class="p-4">
+       <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 4 (Duplicate or another) -->
+    <article data-category="tips"  class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Tips & Hacks</span>
+      </div>
+      <div class="p-4">
+<div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>          <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 5 (Duplicate or another) -->
+    <article data-category="culinary" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Culinary</span>
+      </div>
+      <div class="p-4">
+        <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 6 (Duplicate or another) -->
+    <article data-category="lifestyle" class=" blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Lifestyle</span>
+      </div>
+      <div class="p-4">
+       <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 7 (Duplicate or another) -->
+    <article data-category="lifestyle" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Lifestyle</span>
+      </div>
+      <div class="p-4">
+        <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 8 (Duplicate or another) -->
+    <article data-category="destination" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Destination</span>
+      </div>
+      <div class="p-4">
+        <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 9 (Duplicate or another) -->
+    <article data-category="lifestyle" class=" blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Lifestyle</span>
+      </div>
+      <div class="p-4">
+       <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 10 (Duplicate or another) -->
+    <article data-category="destination" class="blog-card overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Destination</span>
+      </div>
+      <div class="p-4">
+       <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+
+    <!-- Blog Post 11 (Duplicate or another) -->
+    <article data-category="tips" class="blog-card rounded-xl overflow-hidden shadow hover:shadow-md transition  border border-gray-200 bg-white">
+      <div class="relative">
+        <img src="https://thumbs.dreamstime.com/b/men-s-shirts-hang-hanger-clothing-store-202760874.jpg" alt="Fashion and Travel" class="w-full h-48 object-cover">
+        <span class="absolute top-2 left-2 bg-gray-800 text-white text-xs font-semibold px-3 py-1 rounded-full bg-opacity-90">Tips & Hacks</span>
+      </div>
+      <div class="p-4">
+       <div class="text-gray-500 text-sm mb-1 flex items-center justify-between">
+  <!-- Date & Read Time -->
+  <span>30 Jan 2024 • 10 mins read</span>
+
+  <!-- Eye Icon + View Count -->
+  <div class="flex items-center gap-1">
+    <!-- View Count (Initially Hidden) -->
+ <span class=" text-blue-700 text-xs" id="viewCount">1.2K views</span>
+
+    <!-- Eye Icon Button -->
+    <button onclick="toggleViewCount(this)" class="text-gray-700 hover:text-gray-700 focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
+      </svg>
+    </button>
+  </div>
+</div>
+        <h3 class="text-lg font-bold text-gray-900 mb-1">A Fashionista's Guide to Wanderlust</h3>
+        <p class="text-sm text-gray-600">Explore the intersection of fashion and travel as we delve into the wardrobes of globetrotters. From...</p>
+      </div>
+    </article>
+  </div>
+
+  <!-- Pagination -->
+<div class="flex justify-center mt-10 ">
+  <nav class="inline-flex -space-x-px text-sm pagination-container">
+      <a href="#" class="px-3 py-2 ml-0 leading-tight text-white  bg-[#2563eb] border border-gray-300 rounded-l-lg hover:bg-blue-700">Previous</a>
+      <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 bg-blue-50 hover:bg-blue-100">1</a>
+      <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 hover:bg-gray-100">2</a>
+      <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 hover:bg-gray-100">3</a>
+      <a href="#" class="px-3 py-2 leading-tight text-white border border-gray-300 rounded-r-lg hover:bg-gray-100">Next</a>
+    </nav>
+  </div>
+</section>
+
+
+
+  <script>
+  function toggleViewCount(button) {
+    const span = button.previousElementSibling;
+    span.classList.toggle('hidden');
+  }
+
+  function toggleViewCount(button) {
+    const span = button.previousElementSibling;
+    span.classList.toggle('hidden');
+  }
+
+  function filterBlogs(category) {
+    const cards = document.querySelectorAll('.blog-card');
+    
+    cards.forEach(card => {
+      if (category === 'all' || card.getAttribute('data-category') === category) {
+        card.style.display = 'block';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
+
+  // Pagination functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const blogCards = document.querySelectorAll('.blog-card');
+    const itemsPerPage = 9;
+    let currentPage = 1;
+    const totalPages = Math.ceil(blogCards.length / itemsPerPage);
+    
+    // Initialize pagination
+    updatePagination();
+    showPage(currentPage);
+    
+    // Function to show a specific page
+    function showPage(page) {
+      currentPage = page;
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      
+      blogCards.forEach((card, index) => {
+        if (index >= startIndex && index < endIndex) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      updatePagination();
+    }
+    
+    // Function to update pagination controls
+    function updatePagination() {
+      const paginationContainer = document.querySelector('.pagination-container');
+      if (!paginationContainer) return;
+      
+      paginationContainer.innerHTML = '';
+      
+      // Previous button
+      const prevButton = document.createElement('a');
+      prevButton.href = '#';
+      prevButton.className = `px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 ${currentPage === 1 ? 'cursor-not-allowed opacity-50' : ''}`;
+      prevButton.textContent = 'Previous';
+      prevButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage > 1) showPage(currentPage - 1);
+      });
+      paginationContainer.appendChild(prevButton);
+      
+      // Page numbers
+      const maxVisiblePages = 3; // Show up to 3 page numbers
+      let startPage, endPage;
+      
+      if (totalPages <= maxVisiblePages) {
+        startPage = 1;
+        endPage = totalPages;
+      } else {
+        const maxPagesBeforeCurrent = Math.floor(maxVisiblePages / 2);
+        const maxPagesAfterCurrent = Math.ceil(maxVisiblePages / 2) - 1;
+        
+        if (currentPage <= maxPagesBeforeCurrent) {
+          startPage = 1;
+          endPage = maxVisiblePages;
+        } else if (currentPage + maxPagesAfterCurrent >= totalPages) {
+          startPage = totalPages - maxVisiblePages + 1;
+          endPage = totalPages;
+        } else {
+          startPage = currentPage - maxPagesBeforeCurrent;
+          endPage = currentPage + maxPagesAfterCurrent;
+        }
+      }
+      
+      // First page and ellipsis if needed
+      if (startPage > 1) {
+        const firstPageButton = createPageButton(1);
+        paginationContainer.appendChild(firstPageButton);
+        
+        if (startPage > 2) {
+          const ellipsis = document.createElement('span');
+          ellipsis.className = 'px-3 py-2 leading-tight text-gray-500';
+          ellipsis.textContent = '...';
+          paginationContainer.appendChild(ellipsis);
+        }
+      }
+      
+      // Page range
+      for (let i = startPage; i <= endPage; i++) {
+        const pageButton = createPageButton(i);
+        paginationContainer.appendChild(pageButton);
+      }
+      
+      // Last page and ellipsis if needed
+      if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+          const ellipsis = document.createElement('span');
+          ellipsis.className = 'px-3 py-2 leading-tight text-gray-500';
+          ellipsis.textContent = '...';
+          paginationContainer.appendChild(ellipsis);
+        }
+        
+        const lastPageButton = createPageButton(totalPages);
+        paginationContainer.appendChild(lastPageButton);
+      }
+      
+      // Next button
+      const nextButton = document.createElement('a');
+      nextButton.href = '#';
+      nextButton.className = `px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 ${currentPage === totalPages ? 'cursor-not-allowed opacity-50' : ''}`;
+      nextButton.textContent = 'Next';
+      nextButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (currentPage < totalPages) showPage(currentPage + 1);
+      });
+      paginationContainer.appendChild(nextButton);
+    }
+    
+    // Helper function to create page buttons
+    function createPageButton(pageNumber) {
+      const pageButton = document.createElement('a');
+      pageButton.href = '#';
+      pageButton.className = `px-3 py-2 leading-tight border border-gray-300 hover:bg-gray-100 ${currentPage === pageNumber ? 'text-blue-600 bg-blue-50' : 'text-gray-500 bg-white'}`;
+      pageButton.textContent = pageNumber;
+      pageButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage(pageNumber);
+      });
+      return pageButton;
+    }
+    
+    // Keep your existing filter functionality
+    function toggleViewCount(button) {
+      const span = button.previousElementSibling;
+      span.classList.toggle('hidden');
+    }
+
+    function filterBlogs(category) {
+      const cards = document.querySelectorAll('.blog-card');
+      currentPage = 1; // Reset to first page when filtering
+      
+      cards.forEach(card => {
+        if (category === 'all' || card.getAttribute('data-category') === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      // Recalculate pagination after filtering
+      updatePagination();
+      showPage(currentPage);
+    }
+  });
+</script>
+
+
+
+</body>
+</html>
