@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Dashboard Layout -->
+    <div class="flex h-screen">
+        <!-- Sidebar Navigation -->
+        <div id="sidebar" class="w-64 bg-gray-100 text-black p-4 hidden md:block">
+        <div class="flex items-center space-x-4 mb-8">
+    <div class="bg-[#fc9900] p-3 rounded-full text-white">
+        <i class="fas fa-graduation-cap text-xl"></i>
+    </div>
+    <h1 class="text-xl font-bold text-gray-800">LearnHub</h1>
+    </div>
+
+            
+            <nav>
+    <ul class="space-y-4">
+        <li>
+            <a href="#" class="flex items-center p-2 bg-white rounded-xl shadow hover:shadow-md transition space-x-4">
+                <div class="bg-[#fc9900] p-2 rounded-full text-white">
+                    <i class="fas fa-home"></i>
+                </div>
+                <span class="text-gray-800 font-medium">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="flex items-center p-2 bg-white rounded-xl shadow hover:shadow-md transition space-x-4">
+                <div class="bg-[#fc9900] p-2 rounded-full text-white">
+                    <i class="fas fa-book"></i>
+                </div>
+                <span class="text-gray-800 font-medium">My Courses</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="flex items-center p-2 bg-white rounded-xl shadow hover:shadow-md transition space-x-4">
+                <div class="bg-[#fc9900] p-2 rounded-full text-white">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <span class="text-gray-800 font-medium">Progress</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="flex items-center p-2 bg-white rounded-xl shadow hover:shadow-md transition space-x-4">
+                <div class="bg-[#fc9900] p-2 rounded-full text-white">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <span class="text-gray-800 font-medium">Certificates</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="flex items-center p-2 bg-white rounded-xl shadow hover:shadow-md transition space-x-4">
+                <div class="bg-[#fc9900] p-2 rounded-full text-white">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <span class="text-gray-800 font-medium">Settings</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Navigation Bar -->
+           <header class="bg-white shadow-sm">
+    <div class="flex items-center justify-between p-4">
+        <!-- Mobile menu button - updated with click handler -->
+        <button class="md:hidden text-gray-500 mobile-menu-button" onclick="toggleSidebar()">
+            <i class="fas fa-bars text-xl"></i>
+        </button>
+        
+        <!-- Search Bar -->
+        <div class="relative w-full max-w-md mx-4">
+            <input type="text" placeholder="Search courses..." 
+                   class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+        
+        <!-- Right side icons -->
+        <div class="flex items-center space-x-4">
+            <button class="text-gray-600 hover:text-blue-600 relative">
+                <i class="fas fa-bell text-xl"></i>
+                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+            </button>
+            <!-- <button class="text-gray-600 hover:text-blue-600">
+                <i class="fas fa-cog text-xl"></i>
+            </button> -->
+           <div class="flex items-center space-x-2">
+    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" class="w-8 h-8 rounded-full">
+    <span class="text-sm font-medium md:inline">Sarah Johnson</span>
+</div>
+        </div>
+    </div>
+</header>
+            
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+                <div class="container mx-auto max-w-6xl">
+                    <!-- Welcome Banner -->
+                    <div class="bg-[#fc9900] text-white rounded-xl p-6 mb-8">
+                        <h1 class="text-2xl font-bold mb-2">Welcome back, Sarah!</h1>
+                        <p class="opacity-90">Continue your learning journey with our latest courses</p>
+                    </div>
+                    
+                    <!-- Free Courses Section -->
+                    <section class="mb-12">
+                        <div class="flex items-center justify-between mb-6">
+                            <h1 class="text-2xl font-bold text-gray-800">Free Courses</h1>
+                            <a href="#" class="text-blue-600 hover:underline">View all</a>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          <!-- Course 1 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 w-full">
+    <!-- Course Image -->
+    <div class="h-48 bg-blue-100">
+        <img src="https://tse1.mm.bing.net/th/id/OIP.tT8gRidBGzQjZa1xhatBVgHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3" 
+             alt="Course Image" 
+             class="w-full h-full object-cover">
+    </div>
+    
+    <!-- Course Content -->
+    <div class="p-5">
+        <div class="flex items-center justify-between mb-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">Stage 1</span>
+            <span class="text-xs text-gray-500">3h 30m</span>
+        </div>
+        <h2 class="text-lg font-bold text-gray-800 mb-2 leading-tight">Dot's and Dort's in Germany</h2>
+        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Lorem ipsum dolor sit amet consectetur, lectuis bibendum convallis velit porttitor.</p>
+        
+        <!-- Price & Eligibility -->
+        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+            <span class="bg-[#fc9900] text-white px-3 py-1 rounded-full text-xs font-semibold">FREE</span>
+            <span class="text-xs text-gray-500">For Leon and Insurance Customers</span>
+        </div>
+    </div>
+</div>
+
+<!-- Course 2 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 w-full">
+    <!-- Course Image -->
+    <div class="h-48 bg-blue-100">
+        <img src="https://tse4.mm.bing.net/th/id/OIP.CUL4cG_XM74E59IAiZKnlAHaE8?r=0&w=1200&h=800&rs=1&pid=ImgDetMain&o=7&rm=3" 
+             alt="Masters Course" 
+             class="w-full h-full object-cover">
+    </div>
+    
+    <!-- Course Content -->
+    <div class="p-5">
+        <div class="flex items-center justify-between mb-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">Stage 2</span>
+            <span class="text-xs text-gray-500">3h 30m</span>
+        </div>
+        <h2 class="text-lg font-bold text-gray-800 mb-2 leading-tight">How to Plan and Complete Your Masters</h2>
+        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Lorem ipsum dolor sit amet consectetur, lectuis bibendum convallis velit porttitor.</p>
+        
+        <!-- Price & Eligibility -->
+        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+            <span class="bg-[#fc9900] text-white px-3 py-1 rounded-full text-xs font-semibold">FREE</span>
+            <span class="text-xs text-gray-500">For Insurance Customers</span>
+        </div>
+    </div>
+</div>
+                            
+                           <!-- Course 3 -->
+<div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 w-full">
+    <!-- Course Image -->
+    <div class="h-48 bg-blue-100">
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+             alt="Jobs Course" 
+             class="w-full h-full object-cover">
+    </div>
+    
+    <!-- Course Content -->
+    <div class="p-5">
+        <div class="flex items-center justify-between mb-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-semibold">Beginner</span>
+            <span class="text-xs text-gray-500">1h 45m</span>
+        </div>
+        <h2 class="text-lg font-bold text-gray-800 mb-2 leading-tight">Part time vs Full time Jobs</h2>
+        <p class="text-gray-600 text-sm mb-4 line-clamp-2">Lorem ipsum dolor sit amet consectetur, lectuis bibendum convallis velit porttitor.</p>
+        
+        <!-- Price & Eligibility -->
+        <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+            <span class="bg-[#fc9900] text-white px-3 py-1 rounded-full text-xs font-semibold">FREE</span>
+            <span class="text-xs text-gray-500">For All Users</span>
+        </div>
+    </div>
+</div>
+                        </div>
+                    </section>
+                    
+                    <!-- Exclusive Courses Section -->
+                    <section>
+                        <div class="flex items-center justify-between mb-6">
+                            <h1 class="text-2xl font-bold text-gray-800">Exclusive Courses</h1>
+                            <a href="#" class="text-blue-600 hover:underline">View all</a>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Course 1 -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <!-- Course Image -->
+        <div class="h-48 bg-purple-100">
+            <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                 alt="Financial Planning" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Course Content -->
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <span class="bg-[#fc9900] text-white px-3 py-1 rounded-full text-xs font-semibold">Premium</span>
+                <span class="text-xs text-gray-500">5h 20m</span>
+            </div>
+            <h2 class="text-lg font-bold text-gray-800 mb-2 leading-tight">Insurance & Financial Planning (India & Germany)</h2>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">Lorem ipsum dolor sit amet consectetur, lectuis bibendum convallis velit porttitor.</p>
+            
+            <!-- Price & Rating -->
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span class="text-gray-800 font-bold">₹2,999 + GST</span>
+                
+               <button class="bg-[#ff9900] hover:bg-[#e68a00] text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff9900] focus:ring-opacity-50">
+    All 
+</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Course 2 -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <!-- Course Image -->
+        <div class="h-48 bg-purple-100">
+            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                 alt="Financial Review" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Course Content -->
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <span class="bg-[#fc9900] text-white px-3 py-1 rounded-full text-xs font-semibold">Premium</span>
+                <span class="text-xs text-gray-500">4h 10m</span>
+            </div>
+            <h2 class="text-lg font-bold text-gray-800 mb-2 leading-tight">Financial Review with Advisor</h2>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">Lorem ipsum dolor sit amet lectuis bibendum convallis velit porttitor.</p>
+            
+            <!-- Price & Rating -->
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span class="text-gray-800 font-bold">₹4,999 + GST</span>
+                 <button class="bg-[#ff9900] hover:bg-[#e68a00] text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff9900] focus:ring-opacity-50">
+    All 
+</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Course 3 -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
+        <!-- Course Image -->
+        <div class="h-48 bg-purple-100">
+            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                 alt="Career Growth" 
+                 class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Course Content -->
+        <div class="p-5">
+            <div class="flex items-center justify-between mb-2">
+                <span class="bg-[#fc9900] text-white px-3 py-1 rounded-full text-xs font-semibold">New</span>
+                <span class="text-xs text-gray-500">6h 30m</span>
+            </div>
+            <h2 class="text-lg font-bold text-gray-800 mb-2 leading-tight">Career Growth Masterclass</h2>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">Lorem ipsum dolor sit amet consectetur, lectuis bibendum convallis velit porttitor.</p>
+            
+            <!-- Price & Rating -->
+            <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                <span class="text-gray-800 font-bold">₹3,499 + GST</span>
+                 <button class="bg-[#ff9900] hover:bg-[#e68a00] text-white font-medium py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#ff9900] focus:ring-opacity-50">
+    All 
+</button>
+            </div>
+        </div>
+    </div>
+</div>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        sidebar.classList.toggle('hidden');
+    }
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        const mobileButton = document.querySelector('.mobile-menu-button');
+        
+        if (window.innerWidth < 768 && 
+            !sidebar.contains(event.target) && 
+            !mobileButton.contains(event.target)) {
+            sidebar.classList.add('hidden');
+        }
+    });
+</script>
+</body>
+</html>
